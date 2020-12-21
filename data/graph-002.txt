@@ -1,0 +1,5 @@
+Ce graphe est le graphe de Petersen (un graphe très célèbre).  C'est un graphe
+non orienté d'ordre 10 possédant 15 arêtes, qui est très symétrique (les
+sommets sont indistinguables).
+
+Il est donné par ses listes d'adjacence ainsi que par sa matrice d'adjacence.

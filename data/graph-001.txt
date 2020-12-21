@@ -1,0 +1,10 @@
+Ce graphe non orienté est le graphe de voisinage des départements de France
+métropolitaine.  Il a 95 sommets et 488 arêtes (si je ne me suis pas trompé en
+comptant).  Il y a une petite erreur dans la description~: la région de Corse
+n'est comptée que comme un seul département, comme c'était le cas il y a
+quelques années.  Comme la Corse est isolée (sans voisins autres), il est
+assez facile de corriger cette erreur, mais ce n'est pas fait dans la
+description qui suit.
+
+Le graphe est décrit par ses listes d'adjacence, on n'a pas pris la peine de
+donner sa matrice d'adjacence.

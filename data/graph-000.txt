@@ -1,0 +1,6 @@
+Ce graphe est un graphe orienté d'ordre 10, sans circuit (cela se voit presque
+immédiatement)~: chaque sommet est l'origine d'arcs dirigés vers tous les
+sommets de numéro inférieur (ceci expliquant cela).
+
+Il est donné par une description de ses listes d'adjacence, et par sa matrice
+d'djacence.

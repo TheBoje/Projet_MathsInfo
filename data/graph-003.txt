@@ -1,0 +1,6 @@
+Ce graphe est un graphe non orienté à 13 sommets et 36 arêtes. Il possède 4
+composantes connexes, c'est, a priori, sa seule particularité.
+
+Il est donné par ses listes d'ajdacence et sa matrice d'adjacence.
+
+Dessin sur la feuille de TP 1
