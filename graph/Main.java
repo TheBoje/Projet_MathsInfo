@@ -26,7 +26,7 @@ public class Main {
             graphe.setAdjacencyList(sommet, newArray);
         }
         scanner.close();
-        graphe.parcoursLargeur(1);
+        graphe.parcoursLargeur(2);
         graphe.toMatrix();
         graphe.print();
 
