@@ -56,8 +56,8 @@ public class GraphSimple {
             }
         }
         for (int i = 0; i < this.adjacencyTab.length; i++) {
-            for (int j = 1; j < this.adjacencyTab[i].length - 1; j++) {
-                this.adjacencyMatrix[i][this.adjacencyTab[i][j]] = 1;
+            for (int j = 0; j < this.adjacencyTab[i].length; j++) {
+                this.adjacencyMatrix[i][this.adjacencyTab[i][j] - 1] = 1;
             }
         }
         return this.adjacencyMatrix;
@@ -125,8 +125,7 @@ public class GraphSimple {
         this.setDistance(sommet_depart, 0);
         this.setColor(sommet_depart, Enum_Color.Orange);
         this.setParent(sommet_depart, 0); // le parent du sommet de départ = 0 ou lui-meme ? sommet
-                                          // 0 ->
-        // null
+                                          // 0 -> null
 
         while (file.size() > 0) {
             int x = file.getFirst();
@@ -158,6 +157,7 @@ public class GraphSimple {
     public void printAdjacencyTab() {
         System.out.print("Adjacency tab :\n");
         for (int i = 0; i < this.adjacencyTab.length; i++) {
+            System.out.format("%d ", i + 1);
             for (int j = 0; j < this.adjacencyTab[i].length; j++) {
                 System.out.format("%d ", this.adjacencyTab[i][j]);
             }
