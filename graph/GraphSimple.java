@@ -65,7 +65,7 @@ public class GraphSimple {
 
     // Retourne si <sommet> est bien un vertex
     public boolean isVertex(int sommet) {
-        return (sommet <= this.order() && sommet > 1);
+        return (sommet <= this.order() && sommet >= 1);
     }
 
     // Retourne si deux sommets forment une edge
