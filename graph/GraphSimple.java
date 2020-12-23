@@ -39,22 +39,36 @@ public class GraphSimple {
 
     // ========== GETTERS ========== //
 
+    // Return la liste d'adjacence de <sommet>
+    // Note : sommet appartient à [1; this.order()]
     public int[] getAdjacencyList(int sommet) {
-        return this.adjacencyTab[sommet - 1];
+        if (this.isVertex(sommet)) {
+            return this.adjacencyTab[sommet - 1];
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
+    // Retourne l'ordre du graphe
     public int order() {
         return this.adjacencyTab.length;
     }
 
+    // Retourne le degree de <sommet>
     public int degree(int sommet) {
-        return this.adjacencyTab[sommet].length;
+        if (this.isVertex(sommet)) {
+            return this.adjacencyTab[sommet].length;
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
+    // Retourne si <sommet> est bien un vertex
     public boolean isVertex(int sommet) {
         return (sommet <= this.order() && sommet > 1);
     }
 
+    // Retourne si deux sommets forment une edge
     public boolean isEdge(int x, int y) {
         boolean result = false;
         for (int i : this.adjacencyTab[x]) {
@@ -67,15 +81,27 @@ public class GraphSimple {
     }
 
     public Enum_Color getColor(int sommet) {
-        return this.colors[sommet - 1];
+        if (this.isVertex(sommet)) {
+            return this.colors[sommet - 1];
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     public int getDistance(int sommet) {
-        return this.distances[sommet - 1];
+        if (this.isVertex(sommet)) {
+            return this.distances[sommet - 1];
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     public int getParent(int sommet) {
-        return this.parents[sommet - 1];
+        if (this.isVertex(sommet)) {
+            return this.parents[sommet - 1];
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     public boolean getConnexe() {
@@ -83,28 +109,48 @@ public class GraphSimple {
     }
 
     public int getComposanteConnexe(int sommet) {
-        return this.composantesConnexes[sommet - 1];
+        if (this.isVertex(sommet)) {
+            return this.composantesConnexes[sommet - 1];
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     // ========== SETTERS ========== //
 
     public void setAdjacencyList(int sommet, int[] adjacencyList) {
-        this.adjacencyTab[sommet - 1] = new int[adjacencyList.length];
-        for (int i = 0; i < adjacencyList.length; i++) {
-            this.adjacencyTab[sommet - 1][i] = adjacencyList[i];
+        if (this.isVertex(sommet)) {
+            this.adjacencyTab[sommet - 1] = new int[adjacencyList.length];
+            for (int i = 0; i < adjacencyList.length; i++) {
+                this.adjacencyTab[sommet - 1][i] = adjacencyList[i];
+            }
+        } else {
+            throw new IndexOutOfBoundsException();
         }
     }
 
     public void setColor(int sommet, Enum_Color color) {
-        this.colors[sommet - 1] = color;
+        if (this.isVertex(sommet)) {
+            this.colors[sommet - 1] = color;
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     public void setDistance(int sommet, int distance) {
-        this.distances[sommet - 1] = distance;
+        if (this.isVertex(sommet)) {
+            this.distances[sommet - 1] = distance;
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     public void setParent(int sommet, int parent) {
-        this.parents[sommet - 1] = parent;
+        if (this.isVertex(sommet)) {
+            this.parents[sommet - 1] = parent;
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     public void setConnexe(boolean isConnexe) {
@@ -112,11 +158,19 @@ public class GraphSimple {
     }
 
     public void setComposanteConnexe(int sommet, int valeur) {
-        this.composantesConnexes[sommet - 1] = valeur;
+        if (this.isVertex(sommet)) {
+            this.composantesConnexes[sommet - 1] = valeur;
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     // ========== METHODES ========== //
 
+    // Permet de transformer le tableau de listes d'adjacence en une matrice
+    // d'adjacence. La matrice est stockée dans la variable adjacencyMatrix
+    // Note : Pour pouvoir lancer cette méthode, il est impératif que le tableau de
+    // listes d'adjacence existe
     public int[][] toMatrix() {
         this.adjacencyMatrix = new int[this.adjacencyTab.length][this.adjacencyTab.length];
         for (int i = 0; i < this.adjacencyTab.length; i++) {
@@ -132,6 +186,10 @@ public class GraphSimple {
         return this.adjacencyMatrix;
     }
 
+    // Permet de transformer la matrice d'adjacence en son tableau de listes
+    // d'adjacence.
+    // Note : Pour pouvoir lancer cette méthode, il est impératif que la matrice
+    // d'adjacence <adjacencyMatrix> existe
     public int[][] fromMatrix() {
 
         for (int i = 0; i < this.adjacencyMatrix.length; i++) {
@@ -154,6 +212,8 @@ public class GraphSimple {
         return this.adjacencyTab;
     }
 
+    // Responsable de l'initialisation des données relatives à l'études des
+    // composantes connexes.
     public void initComposanteConnexe() {
         this.composantesConnexes = new int[this.order()];
         for (int i = 1; i <= this.order(); i++) {
@@ -161,6 +221,11 @@ public class GraphSimple {
         }
     }
 
+    // Responsable de l'initialisation des données relatives au parcours en largeur
+    // du graphe. Cette initialisation regarde les listes <parents>, <distance> et
+    // <colors>
+    // Note : si les listes existent déjà, alors on se contente de rétablir les
+    // valeurs initiales
     public void initParcoursLargeur() {
         if (parents == null) {
             parents = new int[this.order()];
@@ -178,18 +243,33 @@ public class GraphSimple {
         }
     }
 
+    // Parcours en largeur du graphe.
+    // L'algorithme suit le code couleur suivant pour chaque sommet du graphe :
+    // - Green = Le sommet n'a pas encore été exploré
+    // - Orange = Le sommet est dans la file d'attente, il sera bientôt exploré
+    // - Rouge = Le sommet a été exploré
+    // Lors de l'execution de cet algorithme, on défini pour chaque point traversé
+    // plusieurs données :
+    // - Distance = Nombre d'unité qui sépare le sommet au sommet de départ de
+    // l'algorithme
+    // - Parent = Sommet auquel il est relié selon le parcours en Largeur. On note
+    // que le parent du sommet initial est le sommet initial
     public void parcoursLargeurAux(int sommet_depart) {
         LinkedList<Integer> file = new LinkedList<>();
+        // Initilisation de l'algorithme
         file.add(sommet_depart);
         this.setDistance(sommet_depart, 0);
         this.setColor(sommet_depart, Enum_Color.Orange);
-        this.setParent(sommet_depart, 0); // le parent du sommet de départ = 0 ou lui-meme ? sommet
-        // 0 -> null
-
+        this.setParent(sommet_depart, sommet_depart);
+        // Etude successive de chaque sommet dans la file d'attente.
         while (file.size() > 0) {
+            // Etude du sommet suivant dans la liste
             int x = file.getFirst();
             file.removeFirst();
+            // Passage dans tous les sommets adjacents du sommet x étudié
             for (int y : this.getAdjacencyList(x)) {
+                // Dans le cas ou le sommet adjacent n'a pas encore été visité, on l'ajoute dans
+                // la file
                 if (y != x && this.getColor(y) == Enum_Color.Green) {
                     this.setColor(y, Enum_Color.Orange);
                     this.setDistance(y, this.getDistance(x) + 1);
@@ -200,21 +280,22 @@ public class GraphSimple {
             this.setColor(x, Enum_Color.Red);
         }
         hasDoneLargeur = true;
-        System.out.println("Parcours en largeur terminé\n");
     }
 
+    // Lance le parcours en largeur pour un sommet aléatoire du graphe
     public void parcoursLargeur() {
-        initParcoursLargeur();
         Random rn = new Random();
         int sommet = rn.nextInt(this.order() - 1) + 1;
-        parcoursLargeurAux(sommet);
+        parcoursLargeur(sommet);
     }
 
+    // Initialise et lance le parcours en largeur pour un sommet spécifique
     public void parcoursLargeur(int sommet) {
         initParcoursLargeur();
         parcoursLargeurAux(sommet);
     }
 
+    // Lance le parcours en largeur de chaque sommet du graphe
     public void parcoursComplet() {
         initParcoursLargeur();
         for (int i = 1; i <= this.order(); i++) {
@@ -224,9 +305,17 @@ public class GraphSimple {
         }
     }
 
+    // Test de connexité du graphe.
+    // Note : il est nécessaire d'avoir réalisé un parcours en largeur du graphe
+    // pour avoir un résultat cohérent
+    // Si le graphe possède une seule composante connexe, alors retourne true, sinon
+    // retourne false
     public boolean testConnexityAux() {
         boolean isConnexe = true;
         for (int i = 1; i <= this.order(); i++) {
+            // On sait que le graphe n'est pas connexe si, après un parcours en largeur, un
+            // des points n'a pas été visité, c'est à dire que la couleur à laquelle il est
+            // associé est Vert
             if (this.getColor(i) == Enum_Color.Green) {
                 isConnexe = false;
                 break;
@@ -236,14 +325,21 @@ public class GraphSimple {
         return isConnexe;
     }
 
+    // Initialise et lance le teste de connexité du graphe.
     public boolean testConnexity() {
         parcoursLargeur();
         return testConnexityAux();
     }
 
+    // Compte le nombre de composantes connexe du graphe.
     public int countComposantesConnexe() {
         int res = 0;
         this.initComposanteConnexe();
+        // Pour compter le nombre de composantes connexes du graphe, on fait un parcours
+        // en largeur. On ajoute alors tous les points qui on été parcourus (qui sont de
+        // couleur Rouge) dans la même composante connexe. On parcours alors un des
+        // sommet qui n'a pas encore été étudié, jusqu'à ce que tous les points soient
+        // associé à une composante connexe.
         for (int i = 1; i <= this.order(); i++) {
             if (this.getComposanteConnexe(i) == 0) {
                 parcoursLargeur(i);
@@ -262,6 +358,8 @@ public class GraphSimple {
     }
 
     // ========== I/O ========== //
+    // L'ensemble de ces fonctions servent uniquement à l'affichage des résultat, et
+    // permettent de vérifier l'entrée des données et le résultat des calculs.
 
     public void printMatrix() {
         System.out.print("Matrix :\n");
