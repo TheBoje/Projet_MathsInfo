@@ -4,25 +4,40 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class GraphSimple {
+
+    // ========== ATTRIBUTS ========== //
+
+    // Tableau d'adjacence. voir fichiers .alists
     private int[][] adjacencyTab;
+    // Matrice d'adjacence, voir fichiers .matrix
     private int[][] adjacencyMatrix;
+
+    // Relatif au parcours en largeur du graphe
+    // Green = Pas encore exploré
+    // Orange = Dans la file d'attente
+    // Rouge = A été exploré
     private Enum_Color[] colors;
+    // Relatif au parcours en largeur du graphe
+    // Distance entre le sommet(i) et le sommet initial du parcours en largeur
     private int[] distances;
+    // Relatif au parcours en largeur du graphe
+    // Indique (par un entier) quel est le parent du sommet(i)
     private int[] parents;
+
+    // Relatif au calcul du nombre de composantes connexes du graphe
+    // Stock l'indice de la composante connexe de chaque sommet(i).
     private int[] composantesConnexes;
+
     private boolean hasDoneLargeur = false;
     private boolean isConnexe = false;
 
-    public GraphSimple(int n) {
-        adjacencyTab = new int[n][];
+    // ========== CONSTRUCTEUR ========== //
+
+    public GraphSimple(int order) {
+        adjacencyTab = new int[order][];
     }
 
-    public void setAdjacencyList(int sommet, int[] adjacencyList) {
-        this.adjacencyTab[sommet - 1] = new int[adjacencyList.length];
-        for (int i = 0; i < adjacencyList.length; i++) {
-            this.adjacencyTab[sommet - 1][i] = adjacencyList[i];
-        }
-    }
+    // ========== GETTERS ========== //
 
     public int[] getAdjacencyList(int sommet) {
         return this.adjacencyTab[sommet - 1];
@@ -50,6 +65,57 @@ public class GraphSimple {
         }
         return result;
     }
+
+    public Enum_Color getColor(int sommet) {
+        return this.colors[sommet - 1];
+    }
+
+    public int getDistance(int sommet) {
+        return this.distances[sommet - 1];
+    }
+
+    public int getParent(int sommet) {
+        return this.parents[sommet - 1];
+    }
+
+    public boolean getConnexe() {
+        return this.isConnexe;
+    }
+
+    public int getComposanteConnexe(int sommet) {
+        return this.composantesConnexes[sommet - 1];
+    }
+
+    // ========== SETTERS ========== //
+
+    public void setAdjacencyList(int sommet, int[] adjacencyList) {
+        this.adjacencyTab[sommet - 1] = new int[adjacencyList.length];
+        for (int i = 0; i < adjacencyList.length; i++) {
+            this.adjacencyTab[sommet - 1][i] = adjacencyList[i];
+        }
+    }
+
+    public void setColor(int sommet, Enum_Color color) {
+        this.colors[sommet - 1] = color;
+    }
+
+    public void setDistance(int sommet, int distance) {
+        this.distances[sommet - 1] = distance;
+    }
+
+    public void setParent(int sommet, int parent) {
+        this.parents[sommet - 1] = parent;
+    }
+
+    public void setConnexe(boolean isConnexe) {
+        this.isConnexe = isConnexe;
+    }
+
+    public void setComposanteConnexe(int sommet, int valeur) {
+        this.composantesConnexes[sommet - 1] = valeur;
+    }
+
+    // ========== METHODES ========== //
 
     public int[][] toMatrix() {
         this.adjacencyMatrix = new int[this.adjacencyTab.length][this.adjacencyTab.length];
@@ -88,46 +154,6 @@ public class GraphSimple {
         return this.adjacencyTab;
     }
 
-    public void setColor(int sommet, Enum_Color color) {
-        this.colors[sommet - 1] = color;
-    }
-
-    public Enum_Color getColor(int sommet) {
-        return this.colors[sommet - 1];
-    }
-
-    public void setDistance(int sommet, int distance) {
-        this.distances[sommet - 1] = distance;
-    }
-
-    public int getDistance(int sommet) {
-        return this.distances[sommet - 1];
-    }
-
-    public void setParent(int sommet, int parent) {
-        this.parents[sommet - 1] = parent;
-    }
-
-    public int getParent(int sommet) {
-        return this.parents[sommet - 1];
-    }
-
-    public void setConnexe(boolean isConnexe) {
-        this.isConnexe = isConnexe;
-    }
-
-    public boolean getConnexe() {
-        return this.isConnexe;
-    }
-
-    public void setComposanteConnexe(int sommet, int valeur) {
-        this.composantesConnexes[sommet - 1] = valeur;
-    }
-
-    public int getComposanteConnexe(int sommet) {
-        return this.composantesConnexes[sommet - 1];
-    }
-
     public void initComposanteConnexe() {
         this.composantesConnexes = new int[this.order()];
         for (int i = 1; i <= this.order(); i++) {
@@ -158,7 +184,7 @@ public class GraphSimple {
         this.setDistance(sommet_depart, 0);
         this.setColor(sommet_depart, Enum_Color.Orange);
         this.setParent(sommet_depart, 0); // le parent du sommet de départ = 0 ou lui-meme ? sommet
-                                          // 0 -> null
+        // 0 -> null
 
         while (file.size() > 0) {
             int x = file.getFirst();
@@ -232,8 +258,10 @@ public class GraphSimple {
                 res++;
             }
         }
-        return res; // TODO
+        return res;
     }
+
+    // ========== I/O ========== //
 
     public void printMatrix() {
         System.out.print("Matrix :\n");
