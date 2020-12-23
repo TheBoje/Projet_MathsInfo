@@ -9,6 +9,7 @@ public class GraphSimple {
     private Enum_Color[] colors;
     private int[] distances;
     private int[] parents;
+    private int[] composantesConnexes;
     private boolean hasDoneLargeur = false;
     private boolean isConnexe = false;
 
@@ -119,10 +120,31 @@ public class GraphSimple {
         return this.isConnexe;
     }
 
+    public void setComposanteConnexe(int sommet, int valeur) {
+        this.composantesConnexes[sommet - 1] = valeur;
+    }
+
+    public int getComposanteConnexe(int sommet) {
+        return this.composantesConnexes[sommet - 1];
+    }
+
+    public void initComposanteConnexe() {
+        this.composantesConnexes = new int[this.order()];
+        for (int i = 1; i <= this.order(); i++) {
+            this.setComposanteConnexe(i, 0);
+        }
+    }
+
     public void initParcoursLargeur() {
-        parents = new int[this.order()];
-        distances = new int[this.order()];
-        colors = new Enum_Color[this.order()];
+        if (parents == null) {
+            parents = new int[this.order()];
+        }
+        if (distances == null) {
+            distances = new int[this.order()];
+        }
+        if (colors == null) {
+            colors = new Enum_Color[this.order()];
+        }
         for (int i = 0; i < this.order(); i++) {
             colors[i] = Enum_Color.Green;
             parents[i] = -1;
@@ -155,22 +177,16 @@ public class GraphSimple {
         System.out.println("Parcours en largeur terminé\n");
     }
 
-    // Lancement du parcours en Largeur à partir d'un sommet
-    // aléatoire du graphe
-    // Voir parcoursLargeur(int) pour lancer le parcours via
-    // un sommet en particulier
-    public void parcoursLargeurAux() {
-        Random rn = new Random();
-        int sommet = rn.nextInt(this.order() - 1) + 1;
-        // Le sommet selectionné est entre 1 et le this.order().
-        // Etant donné que rn.nextInt() est inclusive, on utilise donc la forme
-        // ci-dessus
-        this.parcoursLargeurAux(sommet);
-    }
-
     public void parcoursLargeur() {
         initParcoursLargeur();
-        parcoursLargeurAux();
+        Random rn = new Random();
+        int sommet = rn.nextInt(this.order() - 1) + 1;
+        parcoursLargeurAux(sommet);
+    }
+
+    public void parcoursLargeur(int sommet) {
+        initParcoursLargeur();
+        parcoursLargeurAux(sommet);
     }
 
     public void parcoursComplet() {
@@ -199,6 +215,26 @@ public class GraphSimple {
         return testConnexityAux();
     }
 
+    public int countComposantesConnexe() {
+        int res = 0;
+        this.initComposanteConnexe();
+        for (int i = 1; i <= this.order(); i++) {
+            if (this.getComposanteConnexe(i) == 0) {
+                parcoursLargeur(i);
+                for (int j = 1; j <= this.order(); j++) {
+                    if (this.getColor(j) == Enum_Color.Red) {
+                        // Dans le cas ou la couleur du sommet est rouge, c'est à
+                        // dire que le sommet fait partie de la composante connexe
+                        // étudiée
+                        this.setComposanteConnexe(j, i);
+                    }
+                }
+                res++;
+            }
+        }
+        return res; // TODO
+    }
+
     public void printMatrix() {
         System.out.print("Matrix :\n");
         for (int i = 0; i < this.adjacencyMatrix.length; i++) {
@@ -222,10 +258,17 @@ public class GraphSimple {
 
     public void printParcours() {
         System.out.print("Resultat parcours :\n");
-        for (int i = 0; i < this.order(); i++) {
-            System.out.format("%d : [Color : %s | Distance : %d | Parent : %d]\n", i + 1,
-                    this.getColor(i + 1).toString(), this.getDistance(i + 1), this.getParent(i + 1));
+        for (int i = 1; i <= this.order(); i++) {
+            System.out.format("%d : [Color : %s | Distance : %d | Parent : %d]\n", i, this.getColor(i).toString(),
+                    this.getDistance(i), this.getParent(i));
 
+        }
+    }
+
+    public void printComposanteConnexe() {
+        System.out.println("Composante connexe :");
+        for (int i = 1; i <= this.order(); i++) {
+            System.out.format("[Sommet : %d | CC : %d]\n", i, this.getComposanteConnexe(i));
         }
     }
 
@@ -238,6 +281,9 @@ public class GraphSimple {
         }
         if (this.hasDoneLargeur) {
             printParcours();
+        }
+        if (this.composantesConnexes != null) {
+            printComposanteConnexe();
         }
     }
 }

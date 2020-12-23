@@ -28,6 +28,8 @@ public class Main {
         scanner.close();
         boolean res = graphe.testConnexity();
         System.out.format("Connexity : %s\n", res ? true : false);
+        int count = graphe.countComposantesConnexe();
+        System.out.format("Composantes connexes : %d\n", count);
         graphe.toMatrix();
         graphe.print();
 
