@@ -26,7 +26,8 @@ public class Main {
             graphe.setAdjacencyList(sommet, newArray);
         }
         scanner.close();
-        graphe.parcoursLargeur(2);
+        boolean res = graphe.testConnexity();
+        System.out.format("Connexity : %s\n", res ? true : false);
         graphe.toMatrix();
         graphe.print();
 

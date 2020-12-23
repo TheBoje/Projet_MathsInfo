@@ -5,14 +5,58 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Java-graphe0",
             "type": "java",
-            "name": "Launch Main",
             "request": "launch",
-            "mainClass": "graph.Main",
-            "projectName": "Projet_MathsInfo_763d371b"
+            "stopOnEntry": true,
+            "jdkPath": "${env:JAVA_HOME}/bin",
+            "cwd": "${fileDirname}",
+            "startupClass": "${fileBasenameNoExtension}",
+            "args": [
+                "<",
+                "${workspaceFolder}/data/graph-000.alists"
+            ],
+            "classpath": [
+                ".",
+                "${fileDirname}"
+            ]
         },
         {
-            "name": "Java",
+            "name": "Java-graphe1",
+            "type": "java",
+            "request": "launch",
+            "stopOnEntry": true,
+            "jdkPath": "${env:JAVA_HOME}/bin",
+            "cwd": "${fileDirname}",
+            "startupClass": "${fileBasenameNoExtension}",
+            "args": [
+                "<",
+                "${workspaceFolder}/data/graph-001.alists"
+            ],
+            "classpath": [
+                ".",
+                "${fileDirname}"
+            ]
+        },
+        {
+            "name": "Java-graphe2",
+            "type": "java",
+            "request": "launch",
+            "stopOnEntry": true,
+            "jdkPath": "${env:JAVA_HOME}/bin",
+            "cwd": "${fileDirname}",
+            "startupClass": "${fileBasenameNoExtension}",
+            "args": [
+                "<",
+                "${workspaceFolder}/data/graph-002.alists"
+            ],
+            "classpath": [
+                ".",
+                "${fileDirname}"
+            ]
+        },
+        {
+            "name": "Java-graphe3",
             "type": "java",
             "request": "launch",
             "stopOnEntry": true,

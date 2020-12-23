@@ -1,6 +1,7 @@
 package graph;
 
 import java.util.LinkedList;
+import java.util.Random;
 
 public class GraphSimple {
     private int[][] adjacencyTab;
@@ -9,6 +10,7 @@ public class GraphSimple {
     private int[] distances;
     private int[] parents;
     private boolean hasDoneLargeur = false;
+    private boolean isConnexe = false;
 
     public GraphSimple(int n) {
         adjacencyTab = new int[n][];
@@ -109,17 +111,26 @@ public class GraphSimple {
         return this.parents[sommet - 1];
     }
 
+    public void setConnexe(boolean isConnexe) {
+        this.isConnexe = isConnexe;
+    }
+
+    public boolean getConnexe() {
+        return this.isConnexe;
+    }
+
     public void initParcoursLargeur() {
         parents = new int[this.order()];
         distances = new int[this.order()];
         colors = new Enum_Color[this.order()];
         for (int i = 0; i < this.order(); i++) {
             colors[i] = Enum_Color.Green;
+            parents[i] = -1;
+            distances[i] = -1;
         }
     }
 
-    public void parcoursLargeur(int sommet_depart) {
-        initParcoursLargeur();
+    public void parcoursLargeurAux(int sommet_depart) {
         LinkedList<Integer> file = new LinkedList<>();
         file.add(sommet_depart);
         this.setDistance(sommet_depart, 0);
@@ -142,6 +153,50 @@ public class GraphSimple {
         }
         hasDoneLargeur = true;
         System.out.println("Parcours en largeur terminé\n");
+    }
+
+    // Lancement du parcours en Largeur à partir d'un sommet
+    // aléatoire du graphe
+    // Voir parcoursLargeur(int) pour lancer le parcours via
+    // un sommet en particulier
+    public void parcoursLargeurAux() {
+        Random rn = new Random();
+        int sommet = rn.nextInt(this.order() - 1) + 1;
+        // Le sommet selectionné est entre 1 et le this.order().
+        // Etant donné que rn.nextInt() est inclusive, on utilise donc la forme
+        // ci-dessus
+        this.parcoursLargeurAux(sommet);
+    }
+
+    public void parcoursLargeur() {
+        initParcoursLargeur();
+        parcoursLargeurAux();
+    }
+
+    public void parcoursComplet() {
+        initParcoursLargeur();
+        for (int i = 1; i <= this.order(); i++) {
+            if (this.getColor(i) == Enum_Color.Green) {
+                parcoursLargeurAux(i);
+            }
+        }
+    }
+
+    public boolean testConnexityAux() {
+        boolean isConnexe = true;
+        for (int i = 1; i <= this.order(); i++) {
+            if (this.getColor(i) == Enum_Color.Green) {
+                isConnexe = false;
+                break;
+            }
+        }
+        this.setConnexe(isConnexe);
+        return isConnexe;
+    }
+
+    public boolean testConnexity() {
+        parcoursLargeur();
+        return testConnexityAux();
     }
 
     public void printMatrix() {
