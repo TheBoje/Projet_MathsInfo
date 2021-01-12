@@ -118,7 +118,7 @@ javac graph/*.java
 java graph.Main < data/graph-003.alists
 ```
 
-Suite au parcours en largeur, on remarque quel e graphe n'est pas connexe. Il est composé d'au moins 2 composantes connexes. Le résultat du parcours (sur un sommet aléatoire) est le suivant :
+Suite au parcours en largeur, on remarque que le graphe n'est pas connexe. Il est composé d'au moins 2 composantes connexes. Le résultat du parcours (sur un sommet aléatoire) est le suivant :
 
 ```
 1  : [Color : Green | Distance : -1 | Parent : -1 ]
