@@ -189,9 +189,8 @@ public class GraphSimple {
     // Permet de transformer la matrice d'adjacence en son tableau de listes
     // d'adjacence.
     // Note : Pour pouvoir lancer cette méthode, il est impératif que la matrice
-    // d'adjacence <adjacencyMatrix> existe
+    // d'adjacence existe
     public int[][] fromMatrix() {
-
         for (int i = 0; i < this.adjacencyMatrix.length; i++) {
             int count = 0;
             for (int j = 0; j < this.adjacencyMatrix.length; j++) {
